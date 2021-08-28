@@ -11,7 +11,7 @@ public interface UserService {
     UserDto getUserByEmail(String email);
     UserDto addUser(UserDto user);
     void deleteUserByEmail(String email);
-    UserDto updateUserByEmail(String email);
+    UserDto updateUserByEmail(String email, UserDto userDto);
     public List<UserDto> getAllUsers();
 
 }

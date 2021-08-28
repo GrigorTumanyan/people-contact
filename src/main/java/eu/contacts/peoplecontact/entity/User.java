@@ -12,18 +12,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table(name = "user",schema = "public")
 public class User {
-    @Column
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    @Column
+    private int id;
+    @Column(name = "name")
     private String name;
-    @Column
+    @Column(name = "email")
     private String email;
 
 }
+
