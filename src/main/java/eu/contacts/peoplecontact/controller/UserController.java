@@ -24,26 +24,27 @@ public class UserController {
     UserServiceImpl userService;
 
     @PostMapping()
-    public ResponseEntity<UserDto> creatUser(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> creatUser(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.addUser(userDto));
     }
 
     @GetMapping()
-    public ResponseEntity<List<UserDto>> getAllUsers(){
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
     @GetMapping("/{email}")
-    public ResponseEntity<UserDto> getUser(@PathVariable String email){
+    public ResponseEntity<UserDto> getUser(@PathVariable String email) {
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 
     @PatchMapping("/{email}")
-    public ResponseEntity<UserDto> updateUser (@PathVariable String email, @RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> updateUser(@PathVariable String email, @RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.updateUserByEmail(email, userDto));
     }
 
     @DeleteMapping("/{email}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable String email){
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable String email) {
         userService.deleteUserByEmail(email);
         return ResponseEntity.ok(HttpStatus.OK);
     }

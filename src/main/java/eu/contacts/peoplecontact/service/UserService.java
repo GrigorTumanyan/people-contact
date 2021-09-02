@@ -1,6 +1,7 @@
 package eu.contacts.peoplecontact.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import eu.contacts.peoplecontact.dto.UserDto;
 import eu.contacts.peoplecontact.entity.User;
@@ -12,6 +13,6 @@ public interface UserService {
     UserDto addUser(UserDto user);
     void deleteUserByEmail(String email);
     UserDto updateUserByEmail(String email, UserDto userDto);
-    public List<UserDto> getAllUsers();
+    List<UserDto> getAllUsers();
 
 }
