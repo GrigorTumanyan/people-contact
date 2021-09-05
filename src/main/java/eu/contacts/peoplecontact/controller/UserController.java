@@ -24,8 +24,8 @@ public class UserController {
     UserServiceImpl userService;
 
     @PostMapping()
-    public ResponseEntity<UserDto> creatUser(@RequestBody UserDto userDto) {
-        return ResponseEntity.ok(userService.addUser(userDto));
+    public ResponseEntity<String> creatUser(@RequestBody UserDto userDto) {
+        return userService.addUser(userDto);
     }
 
     @GetMapping()

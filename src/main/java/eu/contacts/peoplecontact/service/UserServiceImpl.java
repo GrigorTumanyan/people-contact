@@ -11,6 +11,8 @@ import eu.contacts.peoplecontact.mapper.UserMapper;
 import eu.contacts.peoplecontact.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,44 +43,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto addUser(UserDto userDto) {
+    public ResponseEntity<String> addUser(UserDto userDto) {
         if (userRepository.existsByEmail(userDto.getEmail())) {
-//            stex xndir ka
-//            stex xndir ka
-//            stex xndir ka
-//            stex xndir ka
-//            stex xndir ka
-            throw new RuntimeException(userDto.getEmail() + " is already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(userDto.getEmail() + " this email already exists");
         } else {
-            User createdUser = userRepository.save(userMapper.toEntity(userDto));
-            return userMapper.toDto(createdUser);
+            userRepository.save(userMapper.toEntity(userDto));
+            return ResponseEntity.status(HttpStatus.CREATED).body("You are registered");
         }
+
     }
 
     @Override
     @Transactional
     public void deleteUserByEmail(String email) {
-//        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(email + NOT_FOUND));
         if (userRepository.existsByEmail(email)) {
             userRepository.deleteByEmail(email);
-        }else
-        {
-         throw new ResourceNotFoundException(email + NOT_FOUND);
+        } else {
+            throw new ResourceNotFoundException(email + NOT_FOUND);
         }
     }
 
     @Override
     @Transactional
     public UserDto updateUserByEmail(String email, UserDto userDto) {
-        Optional<User> findUserByEmail = userRepository.findByEmail(email);
-        if (findUserByEmail.isPresent()) {
-            UserDto userDtoFromData = userMapper.toDto(findUserByEmail.get());
-            userDtoFromData.setEmail(userDto.getEmail());
-            userDtoFromData.setName(userDto.getName());
-            User updatedUser = userRepository.save(userMapper.toEntity(userDtoFromData));
-            return userMapper.toDto(updatedUser);
-        }
-        throw new ResourceNotFoundException(userDto.getEmail() + " not found");
+        User findUserByEmail = userRepository.findByEmail(email).orElseThrow(() ->
+            new ResourceNotFoundException(email + " not found"));
+        UserDto userDtoFromData = userMapper.toDto(findUserByEmail);
+        userDtoFromData.setEmail(userDto.getEmail());
+        User updatedUser = userRepository.save(userMapper.toEntity(userDtoFromData));
+        return userMapper.toDto(updatedUser);
 
     }
 }
